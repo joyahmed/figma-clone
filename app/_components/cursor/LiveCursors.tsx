@@ -1,5 +1,5 @@
 import { COLORS } from '@/constants';
-import { LiveCursorProps } from '@/types/type';
+import { LiveCursorProps } from '@/types/type.';
 import React from 'react';
 import Cursor from './Cursor';
 

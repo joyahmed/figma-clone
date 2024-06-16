@@ -20,7 +20,11 @@ const FlyingReaction = lazy(
 	() => import('./reaction/FlyingReaction')
 );
 
-const Live = () => {
+interface LiveProps {
+	canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+}
+
+const Live = ({ canvasRef }: LiveProps) => {
 	const others = useOthers();
 	const [{ cursor }, updateMyPresence] = useMyPresence() as any;
 	const [cursorState, setCursorState] = useState<CursorState>({
@@ -193,13 +197,14 @@ const Live = () => {
 
 	return (
 		<div
+			id='canvas'
 			onPointerMove={handlePointerMove}
 			onPointerLeave={handlePointerLeave}
 			onPointerUp={handlePointerUp}
 			onPointerDown={handlePointerDown}
 			className='flex items-center justify-center h-screen w-full'
 		>
-			<h1 className='text-2xl text-white'>Liveblocks</h1>
+			<canvas ref={canvasRef} />
 
 			{reactions.map(r => (
 				<FlyingReaction

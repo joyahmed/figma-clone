@@ -14,18 +14,25 @@ import {
 	initializeFabric,
 	renderCanvas
 } from '@/lib/canvas';
-import { handleDelete } from '@/lib/key-events';
+import { handleDelete, handleKeyDown } from '@/lib/key-events';
 import { ActiveElement } from '@/types/type';
-import { useMutation, useStorage } from '@liveblocks/react/suspense';
+import {
+	useMutation,
+	useRedo,
+	useStorage,
+	useUndo
+} from '@liveblocks/react/suspense';
 import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 
 const Home = () => {
+	const undo = useUndo();
+	const redo = useRedo();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const fabricRef = useRef<fabric.Canvas | null>(null);
 	const isDrawing = useRef(false);
 	const shapeRef = useRef<fabric.Object | null>(null);
-	const selectedShapeRef = useRef<string | null>('');
+	const selectedShapeRef = useRef<string | null>();
 	const activeObjectRef = useRef<fabric.Object | null>();
 
 	const canvasObjects = useStorage(root => root.canvasObjects);
@@ -45,6 +52,15 @@ const Home = () => {
 		value: '',
 		icon: ''
 	});
+
+	const deleteShapeFromStorage = useMutation(
+		({ storage }, objectId) => {
+			const canvasObjects = storage.get('canvasObjects');
+
+			canvasObjects.delete(objectId);
+		},
+		[]
+	);
 
 	useEffect(() => {
 		const canvas = initializeFabric({ canvasRef, fabricRef });
@@ -94,10 +110,21 @@ const Home = () => {
 			handleResize({ canvas: fabricRef.current });
 		});
 
+		window.addEventListener('keydown', e => {
+			handleKeyDown({
+				e,
+				canvas: fabricRef.current,
+				undo,
+				redo,
+				syncShapeInStorage,
+				deleteShapeFromStorage
+			});
+		});
+
 		return () => {
 			canvas.dispose();
 		};
-	}, [syncShapeInStorage]);
+	}, [syncShapeInStorage, redo, undo, deleteShapeFromStorage]);
 
 	useEffect(() => {
 		renderCanvas({
@@ -116,15 +143,6 @@ const Home = () => {
 		}
 		return canvasObjects.size === 0;
 	}, []);
-
-	const deleteShapeFromStorage = useMutation(
-		({ storage }, objectId) => {
-			const canvasObjects = storage.get('canvasObjects');
-
-			canvasObjects.delete(objectId);
-		},
-		[]
-	);
 
 	const handleActiveElement = (elem: ActiveElement) => {
 		setActiveElement(elem);

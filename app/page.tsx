@@ -15,6 +15,7 @@ import {
 	renderCanvas
 } from '@/lib/canvas';
 import { handleDelete, handleKeyDown } from '@/lib/key-events';
+import { handleImageUpload } from '@/lib/shapes';
 import { ActiveElement } from '@/types/type';
 import {
 	useMutation,
@@ -32,8 +33,9 @@ const Home = () => {
 	const fabricRef = useRef<fabric.Canvas | null>(null);
 	const isDrawing = useRef(false);
 	const shapeRef = useRef<fabric.Object | null>(null);
-	const selectedShapeRef = useRef<string | null>();
-	const activeObjectRef = useRef<fabric.Object | null>();
+	const selectedShapeRef = useRef<string | null>(null);
+	const activeObjectRef = useRef<fabric.Object | null>(null);
+	const imageInputRef = useRef<HTMLInputElement>(null);
 
 	const canvasObjects = useStorage(root => root.canvasObjects);
 
@@ -159,6 +161,14 @@ const Home = () => {
 					deleteShapeFromStorage
 				);
 				setActiveElement(defaultNavElement);
+				break;
+			case 'image':
+				imageInputRef.current?.click();
+				isDrawing.current = false;
+				if (fabricRef.current) {
+					fabricRef.current.isDrawingMode = false;
+				}
+				break;
 			default:
 				break;
 		}
@@ -171,7 +181,17 @@ const Home = () => {
 			<Navbar
 				{...{
 					activeElement,
-					handleActiveElement
+					handleActiveElement,
+					imageInputRef,
+					handleImageUpload: (e: any) => {
+						e.stopPropagation();
+						handleImageUpload({
+							file: e.target.files[0],
+							canvas: fabricRef as any,
+							shapeRef,
+							syncShapeInStorage
+						});
+					}
 				}}
 			/>
 			<section className='flex h-full flex-row'>

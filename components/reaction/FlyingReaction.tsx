@@ -1,4 +1,4 @@
-import styles from './FlyingReaction.module.css';
+import styles from '@/styles/FlyingReaction.module.css';
 
 type Props = {
 	x: number;

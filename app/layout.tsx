@@ -1,6 +1,6 @@
+import { Room } from '@/components/Room';
 import type { Metadata } from 'next';
 import { Work_Sans } from 'next/font/google';
-import { Room } from './_components/Room';
 import './globals.css';
 
 const workSans = Work_Sans({

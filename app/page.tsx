@@ -1,5 +1,14 @@
+'use client';
+
+import Live from './_components/Live';
 import { Room } from './_components/Room';
 
 export default function Page() {
-	return <h1 className='font-xl'>Liveblocks</h1>;
+	return (
+		<div>
+
+
+			<Live />
+		</div>
+	);
 }

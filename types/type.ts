@@ -200,3 +200,14 @@ export type CursorChatProps = {
 		}>
 	) => void;
 };
+
+export type ThreadMetadata = {
+	// Example, attaching coordinates to a thread
+	// x: number;
+	// y: number;
+	resolved: boolean;
+	zIndex: number;
+	time?: number;
+	x: number;
+	y: number;
+};

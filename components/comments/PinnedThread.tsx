@@ -1,5 +1,6 @@
 'use client';
 
+import { ThreadMetadata } from '@/types/type';
 import { ThreadData } from '@liveblocks/client';
 import { Thread } from '@liveblocks/react-comments';
 import Image from 'next/image';
@@ -79,6 +80,7 @@ export const PinnedThread = ({
 				) : null}
 			</div>
 		),
+		//eslint-disable-next-line
 		[thread.comments.length, minimized]
 	);
 

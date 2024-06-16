@@ -7,6 +7,13 @@ import { useMaxZIndex } from '@/lib/useMaxZIndex';
 
 import { PinnedThread } from './PinnedThread';
 
+import { ThreadMetadata } from '@/types/type';
+import {
+	useEditThreadMetadata,
+	useThreads,
+	useUser
+} from '@liveblocks/react/suspense';
+
 type OverlayThreadProps = {
 	thread: ThreadData<ThreadMetadata>;
 	maxZIndex: number;

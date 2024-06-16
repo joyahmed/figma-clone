@@ -1,7 +1,7 @@
 // Define Liveblocks types for your application
 // https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
 
-import { LiveMap, createClient } from '@liveblocks/client';
+import { LiveMap } from '@liveblocks/client';
 
 declare global {
 	interface Liveblocks {
@@ -39,6 +39,11 @@ declare global {
 			// Example, attaching coordinates to a thread
 			// x: number;
 			// y: number;
+			resolved: boolean;
+			zIndex: number;
+			time?: number;
+			x: number;
+			y: number;
 		};
 
 		// Custom room info set with resolveRoomsInfo, for useRoomInfo

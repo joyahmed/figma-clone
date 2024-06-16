@@ -11,7 +11,7 @@ import {
 	CanvasPathCreated,
 	CanvasSelectionCreated,
 	RenderCanvas
-} from '@/types/type.';
+} from '@/types/type';
 import { createSpecificShape } from './shapes';
 
 // initialize fabric canvas

@@ -90,7 +90,6 @@ const Home = () => {
 
 		canvas.on('mouse:up', options => {
 			handleCanvasMouseUp({
-				options,
 				canvas,
 				isDrawing,
 				shapeRef,
@@ -140,6 +139,7 @@ const Home = () => {
 		const canvasObjects = storage.get('canvasObjects');
 
 		if (!canvasObjects || canvasObjects.size === 0) return true;
+		//@ts-ignore
 		for (const [key, value] of canvasObjects.entries()) {
 			canvasObjects.delete(key);
 		}
